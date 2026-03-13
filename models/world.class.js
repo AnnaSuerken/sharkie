@@ -3,18 +3,32 @@ class World{
     enemies = [
         new Jellyfish(),
         new Jellyfish(),
-        new Jellyfish(),
+        new Pufferfish(),
+        new Pufferfish(),
+        new Endboss(),
     ]
-
+    canvas;
     ctx;
 
     constructor(canvas){
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
         this.draw();
     }
 
 
     draw(){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height)
+        
+        this.enemies.forEach(enemy => {
+            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height)
+        });
+
+        let self = this; //innerhalb der function wird this. nicht mehr erkannt daher muss man einen workaound bilden
+        requestAnimationFrame(function() {
+            self.draw();
+        });
     }
 }

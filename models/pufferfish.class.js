@@ -1,8 +1,8 @@
-class Jellyfish extends MovableObject {
+class Pufferfish extends MovableObject {
   
     
     constructor(){
-        super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');
+        super().loadImage('img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png');
         this.x = 200 + Math.random() * 500;
         this.height = 120;
         this.width = 100;
