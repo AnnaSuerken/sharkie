@@ -6,7 +6,6 @@ class Jellyfish extends MovableObject {
         this.x = 200 + Math.random() * 500;
         this.height = 120;
         this.width = 100;
-        this.y = 280;
     }
 
 }
