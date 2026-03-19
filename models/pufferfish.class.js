@@ -14,8 +14,8 @@ class Pufferfish extends MovableObject {
          this.loadImages(this.IMAGES_SWIMMING);
         this.x = 200 + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.25;
-        this.height = 100;
-        this.width = 80;
+        this.height = 80;
+        this.width = 60;
         this.animate();
     }
 
@@ -27,6 +27,6 @@ class Pufferfish extends MovableObject {
         let path = this.IMAGES_SWIMMING[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-    }, 2000)
+    }, 200)
     }
 }
