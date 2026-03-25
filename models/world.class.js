@@ -1,38 +1,11 @@
 class World{
     character = new Character();
-    enemies = [
-        new Jellyfish(),
-        new Jellyfish(),
-        new Pufferfish(),
-        new Pufferfish(),
-        new Endboss(),
-    ];
-    light = [
-        new Light(),
-    ]
-
-    backgrounObjects = [
-        new BackgroundObject ('img/3.Background/Layers/5.Water/L2.png', -720),
-        new BackgroundObject ('img/3.Background/Layers/3.Fondo1/L2.png', -720),
-        new BackgroundObject ('img/3.Background/Layers/4.Fondo2/L2.png', -720),
-        new BackgroundObject('img/3.Background/Layers/2.Floor/L2.png', -720),
-        new BackgroundObject ('img/3.Background/Layers/5.Water/L1.png', 0),
-        new BackgroundObject ('img/3.Background/Layers/3.Fondo1/L1.png', 0),
-        new BackgroundObject ('img/3.Background/Layers/4.Fondo2/L1.png', 0),
-        new BackgroundObject('img/3.Background/Layers/2.Floor/L1.png', 0),
-        new BackgroundObject ('img/3.Background/Layers/5.Water/L2.png', 720),
-        new BackgroundObject ('img/3.Background/Layers/3.Fondo1/L2.png', 720),
-        new BackgroundObject ('img/3.Background/Layers/4.Fondo2/L2.png', 720),
-        new BackgroundObject('img/3.Background/Layers/2.Floor/L2.png', 720),
-        new BackgroundObject ('img/3.Background/Layers/5.Water/L1.png', 1440),
-        new BackgroundObject ('img/3.Background/Layers/3.Fondo1/L1.png', 1440),
-        new BackgroundObject ('img/3.Background/Layers/4.Fondo2/L1.png', 1440),
-        new BackgroundObject('img/3.Background/Layers/2.Floor/L1.png', 1440),
-        new BackgroundObject ('img/3.Background/Layers/5.Water/L2.png', 720*3),
-        new BackgroundObject ('img/3.Background/Layers/3.Fondo1/L2.png', 720*3),
-        new BackgroundObject ('img/3.Background/Layers/4.Fondo2/L2.png', 720*3),
-        new BackgroundObject('img/3.Background/Layers/2.Floor/L2.png', 720*3),
-    ]
+    level = level1;
+    enemies = level1.enemies;
+    light = level1.light;
+    coins = level1.coins;
+    poison = level1.poison;
+    backgrounObjects = level1.backgrounObjects;
 
     canvas;
     ctx;
@@ -49,7 +22,6 @@ class World{
 
     setWorld(){
         this.character.world = this;
-        
     }
 
     draw(){
@@ -57,10 +29,12 @@ class World{
 
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjToMap(this.backgrounObjects);
+        this.addObjToMap(this.level.backgrounObjects);
         this.addToMap(this.character);
-        this.addObjToMap(this.enemies);
-        this.addObjToMap(this.light);
+        this.addObjToMap(this.level.enemies);
+        this.addObjToMap(this.level.light);
+        this.addObjToMap(this.level.coins);
+        this.addObjToMap(this.level.poison);
         this.ctx.translate(-this.camera_x, 0);
 
         let self = this; //innerhalb der function wird this. nicht mehr erkannt daher muss man einen workaound bilden
