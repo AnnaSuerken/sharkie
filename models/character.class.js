@@ -46,6 +46,21 @@ class Character extends MovableObject {
         'img/1.Sharkie/5.Hurt/1.Poisoned/5.png',
     ]
 
+    IMAGES_DEAD = [
+        'img/1.Sharkie/6.dead/1.Poisoned/1.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/2.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/3.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/4.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/5.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/6.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/7.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/8.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/9.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/10.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/11.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/12.png',
+    ]
+
     world;
 
     constructor(){
@@ -54,6 +69,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_RESTING);
         this.loadImages(this.IMAGES_SHOCK);
         this.loadImages(this.IMAGES_POISONED);
+        this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animate();
     }
@@ -83,10 +99,16 @@ class Character extends MovableObject {
         }, 1000/60);
 
         setInterval( () => {
-            if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
+
+
+            if(this.isDead()){
+                this.playAnimation(this.IMAGES_DEAD)
+            } else if(this.isHurt()){
+                this.playAnimation(this.IMAGES_SHOCK)
+            } else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
                 this.playAnimation(this.IMAGES_SWIMMING)
         }
-        }, 50)
+        }, 200)
 
     }
 

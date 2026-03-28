@@ -6,6 +6,7 @@ class World{
     coins = level1.coins;
     poison = level1.poison;
     backgrounObjects = level1.backgrounObjects;
+    statusBar = new StatusBar;
 
     canvas;
     ctx;
@@ -29,13 +30,12 @@ class World{
         setInterval(()=> {
             this.level.enemies.forEach((enemy) => {
                 if(this.character.isColliding(enemy)){
-                    this.character.health -= 5;
+                    this.character.hit();
                     console.log(this.character.health)
                 }
             })
         }, 2000)
     }
-
 
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -47,8 +47,8 @@ class World{
         this.addObjToMap(this.level.coins);
         this.addObjToMap(this.level.poison);
         this.ctx.translate(-this.camera_x, 0);
-
-
+        this.addToMap(this.statusBar);
+        
         let self = this; //innerhalb der function wird this. nicht mehr erkannt daher muss man einen workaound bilden
         requestAnimationFrame(function() {
             self.draw();
