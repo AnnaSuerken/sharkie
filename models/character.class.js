@@ -1,115 +1,125 @@
 class Character extends MovableObject {
-    width = 400;
-    height = 350;
-    y = -50;
-    speed = 10;
-    IMAGES_SWIMMING = [
-        'img/1.Sharkie/3.Swim/1.png',
-        'img/1.Sharkie/3.Swim/2.png', 
-        'img/1.Sharkie/3.Swim/3.png',
-        'img/1.Sharkie/3.Swim/4.png',
-        'img/1.Sharkie/3.Swim/5.png',
-        'img/1.Sharkie/3.Swim/6.png',
-    ]
+  width = 400;
+  height = 350;
+  y = -50;
+  speed = 10;
+  coins= 0;
+  poison= 0; 
+  health = 100;
+  
+  IMAGES_SWIMMING = [
+    "img/1.Sharkie/3.Swim/1.png",
+    "img/1.Sharkie/3.Swim/2.png",
+    "img/1.Sharkie/3.Swim/3.png",
+    "img/1.Sharkie/3.Swim/4.png",
+    "img/1.Sharkie/3.Swim/5.png",
+    "img/1.Sharkie/3.Swim/6.png",
+  ];
 
-    IMAGES_RESTING = [
-        'img/1.Sharkie/1.IDLE/1.png',
-        'img/1.Sharkie/1.IDLE/2.png', 
-        'img/1.Sharkie/1.IDLE/3.png',
-        'img/1.Sharkie/1.IDLE/4.png',
-        'img/1.Sharkie/1.IDLE/5.png',
-        'img/1.Sharkie/1.IDLE/6.png',
-        'img/1.Sharkie/1.IDLE/7.png',
-        'img/1.Sharkie/1.IDLE/8.png',
-        'img/1.Sharkie/1.IDLE/9.png',
-        'img/1.Sharkie/1.IDLE/10.png',
-        'img/1.Sharkie/1.IDLE/11.png',
-        'img/1.Sharkie/1.IDLE/12.png',
-        'img/1.Sharkie/1.IDLE/13.png',
-        'img/1.Sharkie/1.IDLE/14.png',
-        'img/1.Sharkie/1.IDLE/15.png',
-        'img/1.Sharkie/1.IDLE/16.png',
-        'img/1.Sharkie/1.IDLE/17.png',
-        'img/1.Sharkie/1.IDLE/18.png',
-    ]
+  IMAGES_RESTING = [
+    "img/1.Sharkie/1.IDLE/1.png",
+    "img/1.Sharkie/1.IDLE/2.png",
+    "img/1.Sharkie/1.IDLE/3.png",
+    "img/1.Sharkie/1.IDLE/4.png",
+    "img/1.Sharkie/1.IDLE/5.png",
+    "img/1.Sharkie/1.IDLE/6.png",
+    "img/1.Sharkie/1.IDLE/7.png",
+    "img/1.Sharkie/1.IDLE/8.png",
+    "img/1.Sharkie/1.IDLE/9.png",
+    "img/1.Sharkie/1.IDLE/10.png",
+    "img/1.Sharkie/1.IDLE/11.png",
+    "img/1.Sharkie/1.IDLE/12.png",
+    "img/1.Sharkie/1.IDLE/13.png",
+    "img/1.Sharkie/1.IDLE/14.png",
+    "img/1.Sharkie/1.IDLE/15.png",
+    "img/1.Sharkie/1.IDLE/16.png",
+    "img/1.Sharkie/1.IDLE/17.png",
+    "img/1.Sharkie/1.IDLE/18.png",
+  ];
 
-    IMAGES_SHOCK = [
-        'img/1.Sharkie/5.Hurt/2.Electric shock/1.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/2.png', 
-        'img/1.Sharkie/5.Hurt/2.Electric shock/3.png',
-    ]
+  IMAGES_SHOCK = [
+    "img/1.Sharkie/5.Hurt/2.Electric shock/1.png",
+    "img/1.Sharkie/5.Hurt/2.Electric shock/2.png",
+    "img/1.Sharkie/5.Hurt/2.Electric shock/3.png",
+  ];
 
-    IMAGES_POISONED = [
-        'img/1.Sharkie/5.Hurt/1.Poisoned/2.png',
-        'img/1.Sharkie/5.Hurt/1.Poisoned/3.png', 
-        'img/1.Sharkie/5.Hurt/1.Poisoned/4.png',
-        'img/1.Sharkie/5.Hurt/1.Poisoned/5.png',
-    ]
+  IMAGES_POISONED = [
+    "img/1.Sharkie/5.Hurt/1.Poisoned/2.png",
+    "img/1.Sharkie/5.Hurt/1.Poisoned/3.png",
+    "img/1.Sharkie/5.Hurt/1.Poisoned/4.png",
+    "img/1.Sharkie/5.Hurt/1.Poisoned/5.png",
+  ];
 
-    IMAGES_DEAD = [
-        'img/1.Sharkie/6.dead/1.Poisoned/1.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/2.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/3.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/4.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/5.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/6.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/7.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/8.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/9.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/10.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/11.png',
-        'img/1.Sharkie/6.dead/1.Poisoned/12.png',
-    ]
+  IMAGES_DEAD = [
+    "img/1.Sharkie/6.dead/1.Poisoned/1.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/2.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/3.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/4.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/5.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/6.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/7.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/8.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/9.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/10.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/11.png",
+    "img/1.Sharkie/6.dead/1.Poisoned/12.png",
+  ];
 
-    world;
+  world;
 
-    constructor(){
-        super().loadImage('img/1.Sharkie/3.Swim/1.png');
-        this.loadImages(this.IMAGES_SWIMMING);
-        this.loadImages(this.IMAGES_RESTING);
-        this.loadImages(this.IMAGES_SHOCK);
-        this.loadImages(this.IMAGES_POISONED);
-        this.loadImages(this.IMAGES_DEAD);
-        this.applyGravity();
-        this.animate();
+  constructor() {
+    super().loadImage("img/1.Sharkie/3.Swim/1.png");
+    this.loadImages(this.IMAGES_SWIMMING);
+    this.loadImages(this.IMAGES_RESTING);
+    this.loadImages(this.IMAGES_SHOCK);
+    this.loadImages(this.IMAGES_POISONED);
+    this.loadImages(this.IMAGES_DEAD);
+    this.applyGravity();
+    this.animate();
+  }
+
+  animate() {
+
+
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.moveRight();
+        this.otherDirection = false;
+      }
+
+      if (this.world.keyboard.LEFT && this.x > 0) {
+        this.moveLeft();
+        this.otherDirection = true;
+      }
+      this.world.camera_x = -this.x;
+
+      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        this.jump();
+      }
+    }, 1000 / 60);
+ 
+
+  setInterval(() => {
+    if(this.isDead()){
+        if(!this.deadStarted){
+            this.currentImage = 0;
+            this.deadStarted = true;
+        }
+        this.playAnimationOnce(this.IMAGES_DEAD);
+        return; 
     }
 
-    animate(){
-
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_RESTING)
-        }, 200)
-
-        setInterval(() => {
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
-                this.moveRight();
-                this.otherDirection = false;
-            }
-
-            if(this.world.keyboard.LEFT && this.x > 0){
-                this.moveLeft();
-                this.otherDirection = true;
-            }
-            this.world.camera_x = -this.x;
-            
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-            this.jump()
-        }
-
-        }, 1000/60);
-
-        setInterval( () => {
-
-
-            if(this.isDead()){
-                this.playAnimation(this.IMAGES_DEAD)
-            } else if(this.isHurt()){
-                this.playAnimation(this.IMAGES_SHOCK)
-            } else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-                this.playAnimation(this.IMAGES_SWIMMING)
-        }
-        }, 200)
-
+    if(this.isHurt()){
+        this.playAnimation(this.IMAGES_SHOCK);
+        return;
     }
+    if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
+        this.playAnimation(this.IMAGES_SWIMMING);
+        return;
+    }
+    this.playAnimation(this.IMAGES_RESTING);
 
+}, 200);
+  }
 }
+

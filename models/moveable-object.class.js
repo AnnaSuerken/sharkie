@@ -19,17 +19,7 @@ class MovableObject extends DrawableObject{
         return this.y < 110
     }
 
-    drawFrame(ctx){
 
-        if (this instanceof Character || this instanceof Pufferfish) {
-        ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "black";
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke(); 
-        }
-
-    }
     //chracter.isCOlliding(chicken)
     isColliding(mo){
         return this.x + this.width > mo.x &&
@@ -45,6 +35,17 @@ class MovableObject extends DrawableObject{
         this.currentImage++;
     }
 
+    playAnimationOnce(images){
+    if (this.currentImage < images.length) {
+        let path = images[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    } else {
+        let lastImage = images[images.length - 1];
+        this.img = this.imageCache[lastImage];
+    }
+}
+
     moveRight() {
         this.x += this.speed;
     }
@@ -59,7 +60,7 @@ class MovableObject extends DrawableObject{
     }
 
     reduceHealth(){
-        health - 10;
+        health -= 10;
     }
 
     hit(){
