@@ -16,11 +16,14 @@ class MovableObject extends DrawableObject{
     }
 
     isAboveGround(){
+        if(this instanceof ThrowableObject) {
+            return true;
+        } else {
         return this.y < 110
+        }
     }
 
 
-    //chracter.isCOlliding(chicken)
     isColliding(mo){
         return this.x + this.width > mo.x &&
         this.y + this.height > mo.y &&
@@ -29,7 +32,7 @@ class MovableObject extends DrawableObject{
     }
 
     playAnimation(images){
-        let i = this.currentImage % images.length; // let i = 0 % 6; das % steht für den mathematischen Rest
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
@@ -44,7 +47,16 @@ class MovableObject extends DrawableObject{
         let lastImage = images[images.length - 1];
         this.img = this.imageCache[lastImage];
     }
-}
+    }
+
+    playAnimationRange(images, startIndex){
+        let rangeLength = images.length - startIndex;
+        let i = this.currentImage % rangeLength;
+        let path = images[startIndex + i];
+
+        this.img = this.imageCache[path];
+        this.currentImage++
+    }
 
     moveRight() {
         this.x += this.speed;

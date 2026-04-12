@@ -2,8 +2,11 @@ const level1 = new Level(
     [
         new Pufferfish(),
         new Pufferfish(),
+        new Pufferfish(),
+        new Pufferfish(),
     ],
     [
+        new Light(),
         new Light(),
     ],
     [
@@ -35,6 +38,11 @@ const level1 = new Level(
         new Coins(),
     ],
     [
+        new Poison(),
+        new Poison(),
+        new Poison(),
+        new Poison(),
+        new Poison(),
         new Poison(),
         new Poison(),
     ]

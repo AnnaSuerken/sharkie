@@ -3,10 +3,11 @@ class Character extends MovableObject {
   height = 350;
   y = -50;
   speed = 10;
-  coins= 0;
-  poison= 0; 
+  coins = 0;
+  poison = 0;
   health = 100;
-  
+  lastMove = new Date().getTime();
+
   IMAGES_SWIMMING = [
     "img/1.Sharkie/3.Swim/1.png",
     "img/1.Sharkie/3.Swim/2.png",
@@ -65,6 +66,33 @@ class Character extends MovableObject {
     "img/1.Sharkie/6.dead/1.Poisoned/12.png",
   ];
 
+  IMAGES_SLEEP = [
+    "img/1.Sharkie/2.Long_IDLE/i1.png",
+    "img/1.Sharkie/2.Long_IDLE/I2.png",
+    "img/1.Sharkie/2.Long_IDLE/I3.png",
+    "img/1.Sharkie/2.Long_IDLE/I4.png",
+    "img/1.Sharkie/2.Long_IDLE/I5.png",
+    "img/1.Sharkie/2.Long_IDLE/I6.png",
+    "img/1.Sharkie/2.Long_IDLE/I7.png",
+    "img/1.Sharkie/2.Long_IDLE/I8.png",
+    "img/1.Sharkie/2.Long_IDLE/I9.png",
+    "img/1.Sharkie/2.Long_IDLE/I10.png",
+    "img/1.Sharkie/2.Long_IDLE/I11.png",
+    "img/1.Sharkie/2.Long_IDLE/I12.png",
+    "img/1.Sharkie/2.Long_IDLE/I13.png",
+    "img/1.Sharkie/2.Long_IDLE/I14.png",
+  ];
+
+  IMAGES_POISON_ATTACK = [
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/1.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/2.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/3.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/4.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/5.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/6.png",
+    "img/1.Sharkie/4.Attack/Bubble trap/Op2 (Without Bubbles)/7.png",
+  ];
+
   world;
 
   constructor() {
@@ -74,52 +102,119 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_SHOCK);
     this.loadImages(this.IMAGES_POISONED);
     this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_SLEEP);
+    this.loadImages(this.IMAGES_POISON_ATTACK);
     this.applyGravity();
     this.animate();
   }
 
   animate() {
-
-
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
+        this.lastMove = new Date().getTime();
+        this.sleepStarted = false;
+        this.sleepFinished = false;
       }
 
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
+        this.lastMove = new Date().getTime();
+        this.sleepStarted = false;
+        this.sleepFinished = false;
       }
       this.world.camera_x = -this.x;
 
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
+        this.lastMove = new Date().getTime();
+        this.sleepStarted = false;
+        this.sleepFinished = false;
       }
     }, 1000 / 60);
- 
 
-  setInterval(() => {
-    if(this.isDead()){
-        if(!this.deadStarted){
-            this.currentImage = 0;
-            this.deadStarted = true;
+    setInterval(() => {
+      if (this.isDead()) {
+        if (!this.deadStarted) {
+          this.currentImage = 0;
+          this.deadStarted = true;
         }
         this.playAnimationOnce(this.IMAGES_DEAD);
-        return; 
-    }
-
-    if(this.isHurt()){
+        return;
+      }
+      if (this.isHurt()) {
         this.playAnimation(this.IMAGES_SHOCK);
         return;
-    }
-    if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
+      }
+      if(this.checkIfAttack()){
+        return;
+      }
+
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.IMAGES_SWIMMING);
         return;
-    }
-    this.playAnimation(this.IMAGES_RESTING);
+      }
+      if (this.checkIfAsleep()) {
+        return;
+      }
+      this.playAnimation(this.IMAGES_RESTING);
+    }, 200);
+  }
 
-}, 200);
+  checkIfAsleep() {
+    let timePassed = new Date().getTime() - this.lastMove;
+    if (timePassed > 15000) {
+      if (!this.sleepStarted) {
+        this.currentImage = 0;
+        this.sleepStarted = true;
+        this.sleepFinished = false;
+      }
+      if (!this.sleepFinished) {
+        this.playAnimationOnce(this.IMAGES_SLEEP);
+        if (this.currentImage >= this.IMAGES_SLEEP.length) {
+          this.sleepFinished = true;
+          this.currentImage = 0;
+        }
+        return true;
+      }
+      this.playAnimationRange(this.IMAGES_SLEEP, this.IMAGES_SLEEP.length - 4);
+      return true;
+    }
+    return false;
+  }
+
+  checkIfAttack(){
+    if(!this.isAttacking) return false;
+
+  if(!this.attackStarted){
+    this.currentImage = 0;
+    this.attackStarted = true;
+    this.hasShot = false;
+  }
+
+  this.playAnimationOnce(this.IMAGES_POISON_ATTACK);
+
+  if(this.currentImage === 4 && !this.hasShot){
+
+    let bubble = new ThrowableObject(
+      this.x + 250,
+      this.y + 120
+    );
+
+    this.world.throwableObjects.push(bubble);
+
+    this.hasShot = true;
+  }
+
+  if(this.currentImage >= this.IMAGES_POISON_ATTACK.length){
+    this.isAttacking = false;
+    this.attackStarted = false;
+  }
+
+  return true;
   }
 }
+
 

@@ -9,6 +9,7 @@ class World {
   statusBar = new StatusBar("health", 20, 5);
   coinBar = new StatusBar("coins", 20, 50);
   poisonBar = new StatusBar("poison", 20, 100);
+  throwableObjects = [];
 
   canvas;
   ctx;
@@ -21,22 +22,36 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    this.checkCollission();
+    this.run();
   }
 
   setWorld() {
     this.character.world = this;
   }
 
-  checkCollission() {
+  run() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy) => {
+      this.checkCollision();
+      this.collectCoins();
+      this.collectPoison();
+
+      if(this.character.poison > 0){
+      this.checkThrowObjects();
+      }
+      }, 500);
+  }
+
+  checkCollision(){
+    this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
           this.character.hit();
           this.statusBar.setPercentage(this.character.health);
         }
       });
-      this.level.coins.forEach((coin, index) => {
+  }
+
+  collectCoins(){
+    this.level.coins.forEach((coin, index) => {
         if (this.character.isColliding(coin)) {
           this.character.coins += 20;
 
@@ -48,7 +63,11 @@ class World {
 
           this.level.coins.splice(index, 1);
         }
-        this.level.poison.forEach((poison, index) => {
+      })
+  }
+
+  collectPoison(){
+    this.level.poison.forEach((poison, index) => {
           if (this.character.isColliding(poison)) {
             this.character.poison += 20;
 
@@ -59,10 +78,17 @@ class World {
             this.poisonBar.setPercentage(this.character.poison);
 
             this.level.poison.splice(index, 1);
-             }
-        });
-      });       
-    }, 1000);
+          }
+        })
+  }
+
+  checkThrowObjects(){
+    if(this.keyboard.D && this.character.poison >= 20){
+      this.character.isAttacking = true;
+      this.character.attackStarted = false;
+      this.character.poison -= 20;
+      this.poisonBar.setPercentage(this.character.poison);   
+    }
   }
 
   draw() {
@@ -74,6 +100,7 @@ class World {
     this.addObjToMap(this.level.light);
     this.addObjToMap(this.level.coins);
     this.addObjToMap(this.level.poison);
+    this.addObjToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.addToMap(this.coinBar);
