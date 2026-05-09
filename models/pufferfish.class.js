@@ -2,6 +2,7 @@ class Pufferfish extends MovableObject {
 
     height = 80;
     width = 60;
+    health = 20;
     
     IMAGES_SWIMMING = [
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png',

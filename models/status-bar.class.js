@@ -2,7 +2,7 @@ class StatusBar extends DrawableObject{
 
     IMAGES_HEALTH = [
         'img/4.Marcadores/orange/0_  copia.png',
-        'img/4.Marcadores/orange/20_  copia.png',
+        'img/4.Marcadores/orange/20_ copia 2.png',
         'img/4.Marcadores/orange/40_  copia.png',
         'img/4.Marcadores/orange/60_  copia.png',
         'img/4.Marcadores/orange/80_  copia.png',
@@ -12,7 +12,7 @@ class StatusBar extends DrawableObject{
 
     IMAGES_COINS = [
         'img/4.Marcadores/orange/0_  copia 2.png',
-        'img/4.Marcadores/orange/20_ copia 2.png',
+        'img/4.Marcadores/orange/20_  copia.png',
         'img/4.Marcadores/orange/40_  copia 2.png',
         'img/4.Marcadores/orange/60_  copia 2.png',
         'img/4.Marcadores/orange/80_  copia 2.png',

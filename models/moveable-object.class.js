@@ -25,11 +25,11 @@ class MovableObject extends DrawableObject{
 
 
     isColliding(mo){
-        return this.x + this.width > mo.x &&
-        this.y + this.height > mo.y &&
-        this.x < mo.x &&
-        this.y < mo.y + mo.height
-    }
+    return this.x + this.width > mo.x &&
+           this.y + this.height > mo.y &&
+           this.x < mo.x + mo.width &&
+           this.y < mo.y + mo.height;
+}
 
     playAnimation(images){
         let i = this.currentImage % images.length;
@@ -76,13 +76,17 @@ class MovableObject extends DrawableObject{
     }
 
     hit(){
-        this.health -= 5;
-        if(this.health < 0 ){
-            this.health = 0
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+
+    if(this.isDead()) return;
+
+    this.health -= 5;
+
+    if(this.health < 0){
+        this.health = 0;
     }
+
+    this.lastHit = new Date().getTime();
+}
 
     isDead(){
         return this.health == 0;

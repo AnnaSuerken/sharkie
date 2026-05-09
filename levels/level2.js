@@ -2,6 +2,8 @@ const level2 = new Level (
     [
         new Jellyfish(),
         new Jellyfish(),
+        new Jellyfish(),
+        new Jellyfish(),
     ],
     [
         new Light(),
@@ -35,6 +37,10 @@ const level2 = new Level (
         new Coins(),
     ],
     [
+        new Poison(),
+        new Poison(),
+        new Poison(),
+        new Poison(),
         new Poison(),
         new Poison(),
     ]
