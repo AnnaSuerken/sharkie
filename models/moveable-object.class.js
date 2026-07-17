@@ -9,15 +9,17 @@ class MovableObject extends DrawableObject{
 
     applyGravity(){
         setInterval(() => {
-            if(this.isAboveGround() || this.speedY > 0)
+            if(this.isAboveGround() || this.speedY > 0){
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
+            }
+           
         }, 1000/25);
     }
 
     isAboveGround(){
         if(this instanceof ThrowableObject) {
-            return true;
+            return this.y + this.height < 480;
         } else {
         return this.y < 110
         }
@@ -75,11 +77,11 @@ class MovableObject extends DrawableObject{
         health -= 10;
     }
 
-    hit(){
+    hit(damage = 5){
 
     if(this.isDead()) return;
 
-    this.health -= 5;
+    this.health -= damage;
 
     if(this.health < 0){
         this.health = 0;

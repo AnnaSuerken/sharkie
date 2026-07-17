@@ -36,7 +36,6 @@ class StatusBar extends DrawableObject{
 
         this.type = type;
 
-        // 👉 entscheidet welche Bilder geladen werden
         if(type === 'health'){
             this.images = this.IMAGES_HEALTH;
             this.percentage = 100;

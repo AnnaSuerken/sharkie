@@ -22,6 +22,9 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
+    setInterval(() => {
+      this.checkBubbleCollisions();
+    }, 1000 / 60);
   }
 
   setWorld() {
@@ -30,106 +33,107 @@ class World {
 
   run() {
     setInterval(() => {
+      if (this.character.isDead()) {
+        return;
+      }
       this.checkCollision();
       this.collectCoins();
       this.collectPoison();
-      this.checkBubbleCollisions();
 
-      if(this.character.poison > 0){
-      this.checkThrowObjects();
+      if (this.character.poison > 0) {
+        this.checkThrowObjects();
       }
 
-      if(this.character.x >= this.level.level_end_x){
-       this.nextLevel();
-      }    
-      }, 500);
+      if (this.character.x >= this.level.level_end_x) {
+        this.nextLevel();
+      }
+    }, 500);
   }
 
-  checkBubbleCollisions(){
-
+  checkBubbleCollisions() {
     this.throwableObjects.forEach((bubble, bubbleIndex) => {
+      if (bubble.y + bubble.height >= 480) {
+        this.throwableObjects.splice(bubbleIndex, 1);
+        return;
+      }
+      this.level.enemies.forEach((enemy, enemyIndex) => {
+        if (bubble.isColliding(enemy)) {
+          enemy.hit(20);
 
-        this.level.enemies.forEach((enemy, enemyIndex) => {
+          this.throwableObjects.splice(bubbleIndex, 1);
 
-            if(bubble.isColliding(enemy)){
-
-                enemy.hit(20);
-
-                this.throwableObjects.splice(bubbleIndex, 1);
-
-                if(enemy.health <= 0){
-                    this.level.enemies.splice(enemyIndex, 1);
-                }
-            }
-        });
+          if (enemy.health <= 0) {
+            this.level.enemies.splice(enemyIndex, 1);
+          }
+        }
+      });
     });
-}
+  }
 
-checkCollision(){
-
+  checkCollision() {
     this.level.enemies.forEach((enemy, index) => {
+      if (this.character.isColliding(enemy)) {
+        if (
+          (enemy instanceof Jellyfish || enemy instanceof Pufferfish) &&
+          this.character.speedY < 0 &&
+          this.character.y + this.character.height - 80 < enemy.y
+        ) {
+          enemy.hit(20);
 
-        if(this.character.isColliding(enemy)){
-            if(
-                (enemy instanceof Jellyfish ||
-                 enemy instanceof Pufferfish) &&
-
-                this.character.speedY < 0 &&
-                this.character.y + this.character.height - 80 < enemy.y
-            ){
-
-                enemy.hit(20);
-
-                if(enemy.health <= 0){
-                    this.level.enemies.splice(index, 1);
-                }
-
-            } else {
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.health);
-            }
+          if (enemy.health <= 0) {
+            this.level.enemies.splice(index, 1);
+          }
+        } else {
+          this.character.hit();
+          this.statusBar.setPercentage(this.character.health);
         }
+      }
     });
-}
+  }
 
-  collectCoins(){
+  collectCoins() {
     this.level.coins.forEach((coin, index) => {
-        if (this.character.isColliding(coin)) {
-          this.character.coins += 20;
+      if (this.character.isColliding(coin)) {
+        this.character.coins += 20;
 
-          if (this.character.coins > 100) {
-            this.character.coins = 100;
-          }
-
-          this.coinBar.setPercentage(this.character.coins);
-
-          this.level.coins.splice(index, 1);
+        if (this.character.coins > 100) {
+          this.character.coins = 100;
         }
-      })
+
+        this.coinBar.setPercentage(this.character.coins);
+
+        this.level.coins.splice(index, 1);
+      }
+    });
   }
 
-  collectPoison(){
+  collectPoison() {
     this.level.poison.forEach((poison, index) => {
-          if (this.character.isColliding(poison)) {
-            this.character.poison += 20;
+      if (this.character.isColliding(poison)) {
+        this.character.poison += 20;
 
-            if (this.character.poison > 100) {
-              this.character.poison = 100;
-            }
+        if (this.character.poison > 100) {
+          this.character.poison = 100;
+        }
 
-            this.poisonBar.setPercentage(this.character.poison);
+        this.poisonBar.setPercentage(this.character.poison);
 
-            this.level.poison.splice(index, 1);
-          }
-        })
+        this.level.poison.splice(index, 1);
+      }
+    });
   }
 
-  checkThrowObjects(){
-    if(this.keyboard.D && this.character.poison >= 20){
+  checkThrowObjects() {
+    if (
+      !this.character.isDead() &&
+      this.keyboard.D &&
+      this.character.poison >= 20 &&
+      !this.character.isAttacking
+    ) {
       this.character.isAttacking = true;
       this.character.attackStarted = false;
       this.character.poison -= 20;
-      this.poisonBar.setPercentage(this.character.poison);   
+      this.poisonBar.setPercentage(this.character.poison);
     }
   }
 
@@ -147,8 +151,8 @@ checkCollision(){
     this.addToMap(this.statusBar);
     this.addToMap(this.coinBar);
     this.addToMap(this.poisonBar);
-    if(this.character.x >= this.level.level_end_x){
-    this.nextLevel();
+    if (this.character.x >= this.level.level_end_x) {
+      this.nextLevel();
     }
     let self = this; //innerhalb der function wird this. nicht mehr erkannt daher muss man einen workaound bilden
     requestAnimationFrame(function () {
@@ -187,16 +191,15 @@ checkCollision(){
     this.ctx.restore();
   }
 
-  nextLevel(){
-
+  nextLevel() {
     this.currentLevel++;
-    if(this.currentLevel >= this.levels.length){
-        console.log("Game completed!");
-        return;
+    if (this.currentLevel >= this.levels.length) {
+      console.log("Game completed!");
+      return;
     }
     this.level = this.levels[this.currentLevel];
     this.character.x = 0;
     this.camera_x = 0;
     this.throwableObjects = [];
-}
+  }
 }
