@@ -192,15 +192,15 @@ class Character extends MovableObject {
   checkIfAttack(){
     if(!this.isAttacking) return false;
 
-  if(!this.attackStarted){
+    if(!this.attackStarted){
     this.currentImage = 0;
     this.attackStarted = true;
     this.hasShot = false;
-  }
+     }
 
-  this.playAnimationOnce(this.IMAGES_POISON_ATTACK);
+    this.playAnimationOnce(this.IMAGES_POISON_ATTACK);
 
-  if(this.currentImage === 4 && !this.hasShot){
+    if(this.currentImage === 4 && !this.hasShot){
 
     let bubble = new ThrowableObject(
       this.x + 250,
@@ -210,12 +210,12 @@ class Character extends MovableObject {
     this.world.throwableObjects.push(bubble);
 
     this.hasShot = true;
-  }
+    }
 
-  if(this.currentImage >= this.IMAGES_POISON_ATTACK.length){
+    if(this.currentImage >= this.IMAGES_POISON_ATTACK.length){
     this.isAttacking = false;
     this.attackStarted = false;
-  }
+    }
 
   return true;
   }

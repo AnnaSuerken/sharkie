@@ -18,3 +18,18 @@ canvas{
     align-items: center;
     justify-content: center;
 }
+
+.controls {
+    display: flex;
+    align-items:center;
+    flex-direction: column;
+}
+
+h2 {
+    color: aquamarine;
+    ;
+}
+
+.controls-img {
+    width: 550px
+}
